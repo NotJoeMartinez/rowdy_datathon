@@ -173,3 +173,5 @@ data/**
 *.pdf
 *.zip
 *.zls
+*.db
+*.json
