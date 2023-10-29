@@ -66,3 +66,8 @@ CREATE TABLE IF NOT EXISTS ussd17 (
     ETP_5_17 INTEGER, -- Estimated total population 5-17
     NUM_UNDER_POVERTY INTEGER -- Estimated number of relevant children 5 to 17 years old in poverty who are related to the householder
 );
+
+
+SELECT column_name, data_type, is_nullable, column_default 
+FROM information_schema.columns 
+WHERE table_name = 'lea';
