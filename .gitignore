@@ -175,3 +175,8 @@ data/**
 *.zls
 *.db
 *.json
+
+notes/
+notes
+notes/**
+notes/*
