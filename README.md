@@ -60,7 +60,7 @@ for csv in valid_csvs:
 
 
 ### Correlation between poverty and total enrollment 
-<!-- ![d88d1eb20b96e8759093b32f14d2ca8e.png](:/c1170707d8cc4002894a469b9309983a) -->
+![d88d1eb20b96e8759093b32f14d2ca8e.png](imgs/c1170707d8cc4002894a469b9309983a.png)
 
 
 
@@ -71,6 +71,6 @@ Scatter plot showing the relationship between
 total number of students in Bexar count who passed algebra 1 and their predicted income at the age of 
 35 by Opportunity Atlas.
 
-<!-- ![b2b99373d4daa8d65f1bab999d6ce5d8.png](:/011c964fc40a48259e7c8446bb82ccba) -->
+![b2b99373d4daa8d65f1bab999d6ce5d8.png](imgs/011c964fc40a48259e7c8446bb82ccba.png)
 
 
