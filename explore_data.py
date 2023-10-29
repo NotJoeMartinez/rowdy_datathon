@@ -29,24 +29,27 @@ def main():
     enrollment_data = get_enrollment_data(cur, conn, lea_ids)
 
     combined_data = combine_enrollment_with_poverty(cur, conn, enrollment_data) 
-    print(combined_data)
-
-    for i in combined_data[0:10]:
-        print(i)
+ 
+    print(f"Number of LEAs with matching poverty data: {len(combined_data)}")
 
 
-    # print(lea_ids[0:10])
-    # print(ussd17_ids[0:10])
+    import csv
+    headers = ["LEAID", "LEA_NAME", "LEA_ENR", "ZIP_CODE", "STUDENTS_BELOW_POVERTY"]
+    with open('data/combined_data.csv', 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(headers)
+        for row in combined_data:
+            print(row)
+            csvwriter.writerow(row)
 
-    # 
-    has_data = []
-    for i in ussd17_ids:
-        if i in lea_ids:
-            has_data.append(i)
+    # has_data = []
+    # for i in ussd17_ids:
+    #     if i in lea_ids:
+    #         has_data.append(i)
     
-    print(f"Number of LEAs with data: {len(has_data)}")
+    # print(f"Number of LEAs with data: {len(has_data)}")
 
-    print(has_data[0:10])
+    # print(has_data[0:10])
 
     cur.close()
     conn.close()
@@ -99,7 +102,7 @@ def get_enrollment_data(cur, conn, ids):
     # Connection parameters
 
     cur.execute("""
-    SELECT "LEAID", "LEA_NAME", "LEA_ENR" FROM lea
+    SELECT "LEAID", "LEA_NAME", "LEA_ENR", "LEA_ZIP" FROM lea
     """)
 
     # Fetch all results
@@ -120,7 +123,11 @@ def combine_enrollment_with_poverty(cur, conn, enrollment_data):
     combined_data = []
 
     cur.execute("""
-        SELECT "State FIPS Code","District ID","Estimated number of relevant children 5 to 17 years old in poverty who are related to the householder"
+        SELECT 
+        "State FIPS Code",
+        "District ID",
+        "Estimated Population 5-17",
+        "Estimated number of relevant children 5 to 17 years old in poverty who are related to the householder"
         from ussd17
     """)
 
@@ -130,10 +137,14 @@ def combine_enrollment_with_poverty(cur, conn, enrollment_data):
     for row in enrollment_data:
         lae_id = str(row[0])
 
-        for i in res:
-            if lae_id == str(i[0]) + str(i[1]):
-                print(f"Found match: {lae_id}")
-                combined_data.append(row + (i[2],))
+        for ussd_row in res:
+
+            if lae_id == str(ussd_row[0]) + str(ussd_row[1]):
+
+                # students_below_poverty_rate = ussd_row[3] / ussd_row[2]
+                num_students_below_poverty = ussd_row[3]
+
+                combined_data.append(row + (num_students_below_poverty,))
 
 
     # for row in res:
